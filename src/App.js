@@ -1,5 +1,11 @@
+import { ProfileComment } from "./ProfileComment";
+
 function App() {
-  return <h1>Hello</h1>;
+  return (
+    <main>
+      <ProfileComment />
+    </main>
+  );
 }
 
 export default App;
