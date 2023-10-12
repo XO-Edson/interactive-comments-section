@@ -19,8 +19,12 @@ body {
 }
 
 main {
-  width: 500px;
+  max-width: 650px;
+  height: 100%;
   margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
 img {
@@ -33,7 +37,8 @@ img {
   display: grid;
   grid-template-columns: 50px auto;
   padding: 1rem;
-  border-radius: 10px;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
 }
 
 .counter {
@@ -50,7 +55,7 @@ img {
   font-weight: bold;
   background-color: hsl(228, 33%, 97%);
   padding: 0.5rem;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .profile {
@@ -74,7 +79,8 @@ img {
   color: hsl(212, 24%, 26%);
 }
 
-.profile-info img {
+.profile-info img,
+.comment-area img {
   width: 30px;
   height: 30px;
 }
@@ -89,4 +95,41 @@ img {
   column-gap: 5px;
   font-weight: bold;
   color: hsl(238, 40%, 52%);
+}
+
+.comment-area {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+.text-area {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+textarea {
+  width: 95%;
+  border-radius: 5px;
+  outline: none;
+  padding: 0.5rem;
+  font-family: inherit;
+  resize: none;
+}
+
+button {
+  display: block;
+  background-color: hsl(238, 40%, 52%);
+  color: hsl(0, 0%, 100%);
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+}
+
+.replies {
+  width: 85%;
+  margin-left: auto;
 }
