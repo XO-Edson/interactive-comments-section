@@ -1,6 +1,6 @@
 import React from "react";
 
-export const ReplyBox = ({ posts }) => {
+export const ReplyBox = ({ posts, comment, setComment, replyBtn }) => {
   const adminPost = posts.find((post) => post.admin);
   return (
     <div className="comment-area">
@@ -12,10 +12,12 @@ export const ReplyBox = ({ posts }) => {
           name="comment"
           id="comment"
           placeholder="Add a comment..."
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
         ></textarea>
       </div>
       <div>
-        <button>Reply</button>
+        <button onClick={replyBtn}>Reply</button>
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ body {
 }
 
 main {
-  max-width: 650px;
+  max-width: 530px;
   height: 100%;
   margin: auto;
   display: flex;

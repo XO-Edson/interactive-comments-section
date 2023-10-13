@@ -4,7 +4,14 @@ import plusIcon from "./images/icon-plus.svg";
 import minusIcon from "./images/icon-minus.svg";
 import { ReplyBox } from "./ReplyBox";
 
-export const Replies = ({ posts, handleReply, replies }) => {
+export const Replies = ({
+  posts,
+  handleReply,
+  replies,
+  comment,
+  setComment,
+  replyBtn,
+}) => {
   return replies.map((reply) => {
     return (
       <div key={reply.id} className="replies">
@@ -31,7 +38,14 @@ export const Replies = ({ posts, handleReply, replies }) => {
             <p>{reply.comment}</p>
           </div>
         </div>
-        {reply.reply && <ReplyBox posts={posts} />}
+        {reply.reply && (
+          <ReplyBox
+            posts={posts}
+            comment={comment}
+            setComment={setComment}
+            replyBtn={replyBtn}
+          />
+        )}
       </div>
     );
   });

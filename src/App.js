@@ -35,6 +35,7 @@ function App() {
 
   const [replies, setReplies] = useState([
     {
+      parentId: 2,
       id: 3,
       admin: false,
       username: "ramsesmiron",
@@ -46,6 +47,7 @@ function App() {
         "@maxblagun If you're still new.I'd recommend focussing on the fundamentals oh HTML,CSS and JS before considering React.It's very tempting to jump ahead but lay a solid foundation first.",
     },
     {
+      parentId: 2,
       id: 4,
       admin: true,
       username: "juliosumo",
@@ -57,6 +59,38 @@ function App() {
         "@ramsesmiron I couldn't agree more with this.Everything moves so fast and it always seems like everyone knows the newest library/framework.But the fundamentals are what stay constant.",
     },
   ]);
+  const [comment, setComment] = useState("");
+
+  const handlePost = () => {
+    let newPost = {
+      parentId: 1,
+      id: 99,
+      admin: true,
+      username: "JOHN DOE",
+      profilePicture: AmyRobson,
+      date: "1 month ago",
+      likes: 12,
+      reply: false,
+      comment: comment,
+    };
+    setPosts((prevPosts) => [...prevPosts, newPost]);
+    setComment("");
+  };
+
+  const replybtn = () => {
+    let newReply = {
+      id: 79,
+      admin: true,
+      username: "MARK DOE",
+      profilePicture: AmyRobson,
+      date: "1 month ago",
+      likes: 12,
+      reply: false,
+      comment: comment,
+    };
+    setReplies((prevReplies) => [...prevReplies, newReply]);
+    setComment("");
+  };
 
   const handleReply = (e) => {
     let numberId = parseInt(e.target.id);
@@ -77,10 +111,39 @@ function App() {
   return (
     <main>
       <div>
-        <ProfileComment posts={posts} handleReply={handleReply} />
-        <Replies posts={posts} handleReply={handleReply} replies={replies} />
+        <ProfileComment
+          posts={posts}
+          handleReply={handleReply}
+          comment={comment}
+          setComment={setComment}
+          replyBtn={replybtn}
+        />
+        {replies.map((reply) => {
+          return posts.map((post) => {
+            if (reply.parentId === post.id) {
+              return (
+                <Replies
+                  key={reply.id} // Don't forget to add a unique key
+                  posts={posts}
+                  handleReply={handleReply}
+                  replies={replies}
+                  comment={comment}
+                  setComment={setComment}
+                  replyBtn={replybtn}
+                />
+              );
+            } else {
+              return null;
+            }
+          });
+        })}
       </div>
-      <CommentBox posts={posts} />
+      <CommentBox
+        posts={posts}
+        handlePost={handlePost}
+        comment={comment}
+        setComment={setComment}
+      />
     </main>
   );
 }

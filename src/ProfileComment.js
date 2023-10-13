@@ -5,7 +5,13 @@ import plusIcon from "./images/icon-plus.svg";
 import minusIcon from "./images/icon-minus.svg";
 import { ReplyBox } from "./ReplyBox";
 
-export const ProfileComment = ({ posts, handleReply }) => {
+export const ProfileComment = ({
+  posts,
+  handleReply,
+  comment,
+  setComment,
+  replyBtn,
+}) => {
   return posts.map((post) => {
     return (
       <div key={post.id}>
@@ -32,7 +38,14 @@ export const ProfileComment = ({ posts, handleReply }) => {
             <p>{post.comment}</p>
           </div>
         </div>
-        {post.reply && <ReplyBox posts={posts} />}
+        {post.reply && (
+          <ReplyBox
+            posts={posts}
+            comment={comment}
+            setComment={setComment}
+            replyBtn={replyBtn}
+          />
+        )}
       </div>
     );
   });
