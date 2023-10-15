@@ -8,7 +8,7 @@ import { CommentBox } from "./CommentBox";
 import { Replies } from "./Replies";
 
 function App() {
-  const [posts, setPosts] = useState([
+  const [feed, setFeed] = useState([
     {
       id: 1,
       admin: false,
@@ -35,7 +35,7 @@ function App() {
 
   const [replies, setReplies] = useState([
     {
-      parentId: 2,
+      parentId: 1,
       id: 3,
       admin: false,
       username: "ramsesmiron",
@@ -60,34 +60,45 @@ function App() {
     },
   ]);
   const [comment, setComment] = useState("");
+  const [post, setPost] = useState("");
+  const [likes, setLikes] = useState(true);
 
-  const handlePost = () => {
-    let newPost = {
-      parentId: 1,
-      id: 99,
+  const handleFeed = () => {
+    let newfeedId = feed ? feed.length + 1 : 1;
+
+    let newfeed = {
+      id: newfeedId,
       admin: true,
       username: "JOHN DOE",
       profilePicture: AmyRobson,
       date: "1 month ago",
-      likes: 12,
+      likes: 0,
       reply: false,
-      comment: comment,
+      comment: post,
     };
-    setPosts((prevPosts) => [...prevPosts, newPost]);
-    setComment("");
+    setFeed((prevfeed) => [...prevfeed, newfeed]);
+    setPost("");
   };
 
   const replybtn = () => {
+    let parentfeedActive = feed.find((feed) => feed.reply);
+
+    let parentId = parentfeedActive ? parentfeedActive.id : 1;
+
+    let newReplyId = replies ? replies.length + 100 : 1;
+
     let newReply = {
-      id: 79,
+      parentId: parentId,
+      id: newReplyId,
       admin: true,
       username: "MARK DOE",
       profilePicture: AmyRobson,
       date: "1 month ago",
-      likes: 12,
+      likes: 0,
       reply: false,
       comment: comment,
     };
+    console.log(newReply);
     setReplies((prevReplies) => [...prevReplies, newReply]);
     setComment("");
   };
@@ -95,9 +106,9 @@ function App() {
   const handleReply = (e) => {
     let numberId = parseInt(e.target.id);
 
-    setPosts((prevPosts) => {
-      return prevPosts.map((post) =>
-        numberId === post.id ? { ...post, reply: !post.reply } : post
+    setFeed((prevFeed) => {
+      return prevFeed.map((feed) =>
+        numberId === feed.id ? { ...feed, reply: !feed.reply } : feed
       );
     });
 
@@ -108,41 +119,98 @@ function App() {
     });
   };
 
+  const addLikes = (Id) => {
+    setFeed((prevFeed) => {
+      return prevFeed.map((feedPost) => {
+        if (feedPost.id === Id) {
+          return { ...feedPost, likes: (feedPost.likes || 0) + 1 };
+        } else {
+          return feedPost;
+        }
+      });
+    });
+
+    setReplies((prevReply) => {
+      return prevReply.map((replyPost) => {
+        if (replyPost.id === Id) {
+          return { ...replyPost, likes: (replyPost.likes || 0) + 1 };
+        } else {
+          return replyPost;
+        }
+      });
+    });
+
+    setLikes(false);
+  };
+
+  const removeLikes = (Id) => {
+    setFeed((prevFeed) => {
+      return prevFeed.map((feedPost) => {
+        if (feedPost.id === Id) {
+          return { ...feedPost, likes: (feedPost.likes || 0) - 1 };
+        } else {
+          return feedPost;
+        }
+      });
+    });
+
+    setReplies((prevReply) => {
+      return prevReply.map((replyPost) => {
+        if (replyPost.id === Id) {
+          return { ...replyPost, likes: (replyPost.likes || 0) - 1 };
+        } else {
+          return replyPost;
+        }
+      });
+    });
+
+    setLikes(false);
+  };
+
   return (
     <main>
       <div>
-        <ProfileComment
-          posts={posts}
-          handleReply={handleReply}
-          comment={comment}
-          setComment={setComment}
-          replyBtn={replybtn}
-        />
-        {replies.map((reply) => {
-          return posts.map((post) => {
-            if (reply.parentId === post.id) {
-              return (
+        {feed.map((feed) => (
+          <div key={feed.id}>
+            {/* Render the main feed */}
+            <ProfileComment
+              feed={feed}
+              handleReply={handleReply}
+              comment={comment}
+              setComment={setComment}
+              replyBtn={replybtn}
+              addLikes={addLikes}
+              removeLikes={removeLikes}
+              likes={likes}
+            />
+
+            {/* Render relevant replies for the current feed */}
+            {replies
+              .filter((reply) => reply.parentId === feed.id)
+              .map((filteredReply) => (
                 <Replies
-                  key={reply.id} // Don't forget to add a unique key
-                  posts={posts}
+                  key={filteredReply.id}
+                  feed={feed}
+                  reply={filteredReply}
                   handleReply={handleReply}
                   replies={replies}
                   comment={comment}
                   setComment={setComment}
                   replyBtn={replybtn}
+                  addLikes={addLikes}
+                  removeLikes={removeLikes}
+                  likes={likes}
                 />
-              );
-            } else {
-              return null;
-            }
-          });
-        })}
+              ))}
+          </div>
+        ))}
       </div>
+
       <CommentBox
-        posts={posts}
-        handlePost={handlePost}
-        comment={comment}
-        setComment={setComment}
+        feed={feed}
+        handleFeed={handleFeed}
+        post={post}
+        setPost={setPost}
       />
     </main>
   );

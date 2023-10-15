@@ -1,7 +1,7 @@
 import React from "react";
 import JuliusOmo from "./images/avatars/image-juliusomo.webp";
 
-export const CommentBox = ({ posts, handlePost, comment, setComment }) => {
+export const CommentBox = ({ posts, handleFeed, post, setPost }) => {
   //const adminPost = posts.find((post) => post.admin);
 
   return (
@@ -11,15 +11,15 @@ export const CommentBox = ({ posts, handlePost, comment, setComment }) => {
       </div>
       <div className="text-area">
         <textarea
-          name="comment"
-          id="comment"
+          name="post"
+          id="post"
           placeholder="Add a comment..."
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          value={post}
+          onChange={(e) => setPost(e.target.value)}
         ></textarea>
       </div>
       <div>
-        <button onClick={handlePost}>SEND</button>
+        <button onClick={handleFeed}>SEND</button>
       </div>
     </div>
   );
