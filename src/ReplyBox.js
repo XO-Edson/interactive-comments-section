@@ -1,11 +1,11 @@
 import React from "react";
 
-export const ReplyBox = ({ posts, comment, setComment, replyBtn }) => {
-  const adminPost = posts.find((post) => post.admin);
+export const ReplyBox = ({ feed, comment, setComment, replyBtn }) => {
+  //const adminfeed = feed.admin;
   return (
     <div className="comment-area">
       <div className="user-image">
-        <img src={adminPost ? adminPost.profilePicture : undefined} alt="" />
+        {/* <img src={adminfeed ? adminfeed.profilePicture : undefined} alt="" /> */}
       </div>
       <div className="text-area">
         <textarea

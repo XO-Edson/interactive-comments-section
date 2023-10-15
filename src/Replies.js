@@ -5,48 +5,57 @@ import minusIcon from "./images/icon-minus.svg";
 import { ReplyBox } from "./ReplyBox";
 
 export const Replies = ({
-  posts,
+  feed,
   handleReply,
-  replies,
+  reply,
   comment,
   setComment,
   replyBtn,
+  addLikes,
+  removeLikes,
+  likes,
 }) => {
-  return replies.map((reply) => {
-    return (
-      <div key={reply.id} className="replies">
-        <div className="comment-container">
-          <div className="counter">
-            <div className="counter-info">
-              <img src={plusIcon} alt="plus icon" />
-              <p>{reply.likes}</p>
-              <img src={minusIcon} alt="minus icon" />
-            </div>
-          </div>
-          <div className="profile">
-            <div className="profile-info">
-              <img src={reply.profilePicture} alt="" />
-              <p className="name">{reply.username}</p>
-              <p>{reply.date}</p>
-            </div>
-            <div className="reply" onClick={handleReply}>
-              <img src={ReplyIcon} alt="" />
-              <p id={reply.id}>Reply</p>
-            </div>
-          </div>
-          <div className="comment">
-            <p>{reply.comment}</p>
+  return (
+    <div key={reply.id} className="replies">
+      <div className="comment-container">
+        <div className="counter">
+          <div className="counter-info">
+            <img
+              src={plusIcon}
+              alt="plus icon"
+              onClick={() => (!likes ? addLikes(reply.id) : null)}
+            />
+            <p>{reply.likes}</p>
+            <img
+              src={minusIcon}
+              alt="minus icon"
+              onClick={() => (likes ? removeLikes(reply.id) : null)}
+            />
           </div>
         </div>
-        {reply.reply && (
-          <ReplyBox
-            posts={posts}
-            comment={comment}
-            setComment={setComment}
-            replyBtn={replyBtn}
-          />
-        )}
+        <div className="profile">
+          <div className="profile-info">
+            <img src={reply.profilePicture} alt="" />
+            <p className="name">{reply.username}</p>
+            <p>{reply.date}</p>
+          </div>
+          <div className="reply" onClick={handleReply}>
+            <img src={ReplyIcon} alt="" />
+            <p id={reply.id}>Reply</p>
+          </div>
+        </div>
+        <div className="comment">
+          <p>{reply.comment}</p>
+        </div>
       </div>
-    );
-  });
+      {reply.reply && (
+        <ReplyBox
+          feed={feed}
+          comment={comment}
+          setComment={setComment}
+          replyBtn={replyBtn}
+        />
+      )}
+    </div>
+  );
 };
