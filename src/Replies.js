@@ -14,6 +14,7 @@ export const Replies = ({
   addLikes,
   removeLikes,
   likes,
+  handleDelete,
 }) => {
   return (
     <div key={reply.id} className="replies">
@@ -40,6 +41,12 @@ export const Replies = ({
             <p>{reply.date}</p>
           </div>
           <div className="reply" onClick={handleReply}>
+            {reply.admin && (
+              <>
+                <button onClick={handleDelete}>Delete</button>
+                <button>Edit</button>
+              </>
+            )}
             <img src={ReplyIcon} alt="" />
             <p id={reply.id}>Reply</p>
           </div>

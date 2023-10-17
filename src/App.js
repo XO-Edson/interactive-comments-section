@@ -11,7 +11,7 @@ function App() {
   const [feed, setFeed] = useState([
     {
       id: 1,
-      admin: false,
+      admin: true,
       username: "amyrobson",
       profilePicture: AmyRobson,
       date: "1 month ago",
@@ -61,6 +61,7 @@ function App() {
   ]);
   const [comment, setComment] = useState("");
   const [post, setPost] = useState("");
+  const [edit, setEdit] = useState("");
   const [likes, setLikes] = useState(false);
 
   const handleFeed = () => {
@@ -167,6 +168,34 @@ function App() {
     setLikes(false);
   };
 
+  const handleDelete = () => {
+    setFeed((prevFeed) =>
+      prevFeed.filter((feedPost) => feedPost.admin === false)
+    );
+
+    setReplies((prevReply) =>
+      prevReply.filter((reply) => reply.admin === false)
+    );
+  };
+
+  const handleEdit = (post) => {
+    const updatedPost = {
+      id: post.id,
+      admin: true,
+      username: "JOHN DOE",
+      profilePicture: AmyRobson,
+      date: "1 month ago",
+      likes: 0,
+      reply: false,
+      comment: edit,
+    };
+
+    setFeed(
+      feed.map((feedPost) => (feedPost.id === post.id ? updatedPost : feedPost))
+    );
+    setEdit("");
+  };
+
   return (
     <main>
       <div>
@@ -182,6 +211,10 @@ function App() {
               addLikes={addLikes}
               removeLikes={removeLikes}
               likes={likes}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+              setEdit={setEdit}
+              edit={edit}
             />
 
             {/* Render relevant replies for the current feed */}
@@ -200,6 +233,7 @@ function App() {
                   addLikes={addLikes}
                   removeLikes={removeLikes}
                   likes={likes}
+                  handleDelete={handleDelete}
                 />
               ))}
           </div>

@@ -4,6 +4,7 @@ import ReplyIcon from "./images/icon-reply.svg";
 import plusIcon from "./images/icon-plus.svg";
 import minusIcon from "./images/icon-minus.svg";
 import { ReplyBox } from "./ReplyBox";
+import { EditView } from "./EditView";
 
 export const ProfileComment = ({
   feed,
@@ -14,7 +15,16 @@ export const ProfileComment = ({
   addLikes,
   removeLikes,
   likes,
+  handleDelete,
+  handleEdit,
+  setEdit,
+  edit,
 }) => {
+  const toggleEdit = () => {
+    if (!edit) {
+      setEdit(feed.comment);
+    }
+  };
   return (
     <div>
       <div className="comment-container">
@@ -41,12 +51,27 @@ export const ProfileComment = ({
             <p>{feed.date}</p>
           </div>
           <div className="reply" onClick={handleReply}>
+            {feed.admin && (
+              <>
+                <button onClick={handleDelete}>Delete</button>
+                <button onClick={toggleEdit}>Edit</button>
+              </>
+            )}
             <img src={ReplyIcon} alt="" />
             <p id={feed.id}>Reply</p>
           </div>
         </div>
         <div className="comment">
-          <p>{feed.comment}</p>
+          {edit ? (
+            <EditView
+              setEdit={setEdit}
+              edit={edit}
+              feed={feed}
+              handleEdit={handleEdit}
+            />
+          ) : (
+            <p>{feed.comment}</p>
+          )}
         </div>
       </div>
       {feed.reply && (
