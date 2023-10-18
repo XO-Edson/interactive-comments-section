@@ -11,7 +11,7 @@ function App() {
   const [feed, setFeed] = useState([
     {
       id: 1,
-      admin: true,
+      admin: false,
       username: "amyrobson",
       profilePicture: AmyRobson,
       date: "1 month ago",
@@ -59,10 +59,10 @@ function App() {
         "@ramsesmiron I couldn't agree more with this.Everything moves so fast and it always seems like everyone knows the newest library/framework.But the fundamentals are what stay constant.",
     },
   ]);
-  const [comment, setComment] = useState("");
+  const [likes, setLikes] = useState(false);
   const [post, setPost] = useState("");
   const [edit, setEdit] = useState("");
-  const [likes, setLikes] = useState(false);
+  const [newReply, setNewReply] = useState("");
 
   const handleFeed = () => {
     let newfeedId = feed ? feed.length + 1 : 1;
@@ -70,13 +70,14 @@ function App() {
     let newfeed = {
       id: newfeedId,
       admin: true,
-      username: "JOHN DOE",
-      profilePicture: AmyRobson,
+      username: "juliosumo",
+      profilePicture: JuliusOmo,
       date: "1 month ago",
       likes: 0,
       reply: false,
       comment: post,
     };
+
     setFeed((prevfeed) => [...prevfeed, newfeed]);
     setPost("");
   };
@@ -88,20 +89,20 @@ function App() {
 
     let newReplyId = replies ? replies.length + 100 : 1;
 
-    let newReply = {
+    let newReplyPost = {
       parentId: parentId,
       id: newReplyId,
       admin: true,
-      username: "MARK DOE",
-      profilePicture: AmyRobson,
+      username: "juliosumo",
+      profilePicture: JuliusOmo,
       date: "1 month ago",
       likes: 0,
       reply: false,
-      comment: comment,
+      comment: newReply,
     };
-    console.log(newReply);
-    setReplies((prevReplies) => [...prevReplies, newReply]);
-    setComment("");
+
+    setReplies((prevReplies) => [...prevReplies, newReplyPost]);
+    setNewReply("");
   };
 
   const handleReply = (e) => {
@@ -179,14 +180,10 @@ function App() {
   };
 
   const handleEdit = (post) => {
+    const postToEdit = feed.find((feedPost) => feedPost.id === post.id);
+
     const updatedPost = {
-      id: post.id,
-      admin: true,
-      username: "JOHN DOE",
-      profilePicture: AmyRobson,
-      date: "1 month ago",
-      likes: 0,
-      reply: false,
+      ...postToEdit,
       comment: edit,
     };
 
@@ -205,8 +202,8 @@ function App() {
             <ProfileComment
               feed={feed}
               handleReply={handleReply}
-              comment={comment}
-              setComment={setComment}
+              newReply={newReply}
+              setNewReply={setNewReply}
               replyBtn={replybtn}
               addLikes={addLikes}
               removeLikes={removeLikes}
@@ -227,13 +224,16 @@ function App() {
                   reply={filteredReply}
                   handleReply={handleReply}
                   replies={replies}
-                  comment={comment}
-                  setComment={setComment}
+                  newReply={newReply}
+                  setNewReply={setNewReply}
                   replyBtn={replybtn}
                   addLikes={addLikes}
                   removeLikes={removeLikes}
                   likes={likes}
                   handleDelete={handleDelete}
+                  handleEdit={handleEdit}
+                  setEdit={setEdit}
+                  edit={edit}
                 />
               ))}
           </div>
@@ -242,6 +242,7 @@ function App() {
 
       <CommentBox
         feed={feed}
+        replies={replies}
         handleFeed={handleFeed}
         post={post}
         setPost={setPost}

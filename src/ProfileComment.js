@@ -9,8 +9,8 @@ import { EditView } from "./EditView";
 export const ProfileComment = ({
   feed,
   handleReply,
-  comment,
-  setComment,
+  newReply,
+  setNewReply,
   replyBtn,
   addLikes,
   removeLikes,
@@ -62,7 +62,7 @@ export const ProfileComment = ({
           </div>
         </div>
         <div className="comment">
-          {edit ? (
+          {edit && feed.admin ? (
             <EditView
               setEdit={setEdit}
               edit={edit}
@@ -77,8 +77,8 @@ export const ProfileComment = ({
       {feed.reply && (
         <ReplyBox
           feed={feed}
-          comment={comment}
-          setComment={setComment}
+          newReply={newReply}
+          setNewReply={setNewReply}
           replyBtn={replyBtn}
         />
       )}

@@ -1,13 +1,19 @@
 import React from "react";
 import JuliusOmo from "./images/avatars/image-juliusomo.webp";
 
-export const CommentBox = ({ posts, handleFeed, post, setPost }) => {
-  //const adminPost = posts.find((post) => post.admin);
+export const CommentBox = ({ feed, handleFeed, post, setPost, replies }) => {
+  const adminPost = feed.find((feedPost) => feedPost.admin);
+  const replyPost = replies.find((reply) => reply.admin);
+
+  const profilePictureSrc =
+    (adminPost && adminPost.profilePicture) ||
+    (replyPost && replyPost.profilePicture) ||
+    JuliusOmo;
 
   return (
     <div className="comment-area">
       <div className="user-image">
-        <img src={JuliusOmo} alt="" />
+        <img src={profilePictureSrc} alt="" />
       </div>
       <div className="text-area">
         <textarea

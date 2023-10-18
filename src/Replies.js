@@ -3,19 +3,29 @@ import ReplyIcon from "./images/icon-reply.svg";
 import plusIcon from "./images/icon-plus.svg";
 import minusIcon from "./images/icon-minus.svg";
 import { ReplyBox } from "./ReplyBox";
+import { EditView } from "./EditView";
 
 export const Replies = ({
   feed,
   handleReply,
   reply,
-  comment,
-  setComment,
+  newReply,
+  setNewReply,
   replyBtn,
   addLikes,
   removeLikes,
   likes,
   handleDelete,
+  handleEdit,
+  setEdit,
+  edit,
 }) => {
+  const toggleEdit = () => {
+    if (!edit) {
+      setEdit(feed.comment);
+    }
+  };
+
   return (
     <div key={reply.id} className="replies">
       <div className="comment-container">
@@ -44,7 +54,7 @@ export const Replies = ({
             {reply.admin && (
               <>
                 <button onClick={handleDelete}>Delete</button>
-                <button>Edit</button>
+                <button onClick={toggleEdit}>Edit</button>
               </>
             )}
             <img src={ReplyIcon} alt="" />
@@ -52,14 +62,24 @@ export const Replies = ({
           </div>
         </div>
         <div className="comment">
-          <p>{reply.comment}</p>
+          {edit && reply.admin ? (
+            <EditView
+              setEdit={setEdit}
+              edit={edit}
+              feed={feed}
+              handleEdit={handleEdit}
+            />
+          ) : (
+            <p>{reply.comment}</p>
+          )}
         </div>
       </div>
       {reply.reply && (
         <ReplyBox
           feed={feed}
-          comment={comment}
-          setComment={setComment}
+          reply={reply}
+          newReply={newReply}
+          setNewReply={setNewReply}
           replyBtn={replyBtn}
         />
       )}
