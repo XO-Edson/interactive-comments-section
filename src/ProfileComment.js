@@ -53,7 +53,9 @@ export const ProfileComment = ({
           <div className="reply" onClick={handleReply}>
             {feed.admin && (
               <>
-                <button onClick={handleDelete}>Delete</button>
+                <button id={feed.id} onClick={(e) => handleDelete(e.target.id)}>
+                  Delete
+                </button>
                 <button onClick={toggleEdit}>Edit</button>
               </>
             )}

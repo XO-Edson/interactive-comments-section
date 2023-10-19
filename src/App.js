@@ -169,13 +169,15 @@ function App() {
     setLikes(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (e) => {
+    const targetId = parseInt(e);
+
     setFeed((prevFeed) =>
-      prevFeed.filter((feedPost) => feedPost.admin === false)
+      prevFeed.filter((feedPost) => feedPost.id !== targetId)
     );
 
     setReplies((prevReply) =>
-      prevReply.filter((reply) => reply.admin === false)
+      prevReply.filter((reply) => reply.id !== targetId)
     );
   };
 
@@ -189,6 +191,22 @@ function App() {
 
     setFeed(
       feed.map((feedPost) => (feedPost.id === post.id ? updatedPost : feedPost))
+    );
+    setEdit("");
+  };
+
+  const handleReplyEdit = (post) => {
+    const postToEdit = replies.find((feedPost) => feedPost.id === post.id);
+
+    const updatedPost = {
+      ...postToEdit,
+      comment: edit,
+    };
+
+    setReplies(
+      replies.map((feedPost) =>
+        feedPost.id === post.id ? updatedPost : feedPost
+      )
     );
     setEdit("");
   };
@@ -231,7 +249,7 @@ function App() {
                   removeLikes={removeLikes}
                   likes={likes}
                   handleDelete={handleDelete}
-                  handleEdit={handleEdit}
+                  handleReplyEdit={handleReplyEdit}
                   setEdit={setEdit}
                   edit={edit}
                 />
