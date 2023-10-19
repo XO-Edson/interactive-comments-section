@@ -64,7 +64,7 @@ export const ProfileComment = ({
           </div>
         </div>
         <div className="comment">
-          {edit && feed.admin ? (
+          {edit.slice(0, 5) == feed.comment.slice(0, 5) && feed.admin ? (
             <EditView
               setEdit={setEdit}
               edit={edit}

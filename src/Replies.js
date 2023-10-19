@@ -67,7 +67,7 @@ export const Replies = ({
           </div>
         </div>
         <div className="comment">
-          {edit && reply.admin && reply.id ? (
+          {edit.slice(0, 5) == reply.comment.slice(0, 5) && reply.admin ? (
             <EditReplyView
               setEdit={setEdit}
               edit={edit}
