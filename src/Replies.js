@@ -4,7 +4,8 @@ import plusIcon from "./images/icon-plus.svg";
 import minusIcon from "./images/icon-minus.svg";
 import { ReplyBox } from "./ReplyBox";
 import { EditReplyView } from "./EditReplyView";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { postsSliceActions } from "./app/postsSlice";
 
 export const Replies = ({
   feed,
@@ -13,21 +14,33 @@ export const Replies = ({
   newReply,
   setNewReply,
   replyBtn,
-  addLikes,
-  removeLikes,
 
-  handleDelete,
   handleReplyEdit,
   setEdit,
 }) => {
-  const toggleReplyEdit = () => {
-    if (!edit) {
-      setEdit(reply.comment);
-    }
-  };
-
+  const dispatch = useDispatch();
   const likes = useSelector((state) => state.feedPosts.likes);
   const edit = useSelector((state) => state.feedPosts.edit);
+
+  const handleDelete = (e) => {
+    dispatch(postsSliceActions.handleDelete(e.target.id));
+  };
+
+  const addLikes = () => {
+    dispatch(postsSliceActions.addLikes(reply.id));
+  };
+  const removeLikes = () => {
+    dispatch(postsSliceActions.removeLikes(reply.id));
+  };
+
+  const toggleReplyEdit = () => {
+    if (!edit) {
+      dispatch(postsSliceActions.updateEdit(reply.comment));
+    }
+  };
+  const handleReplyBtn = (e) => {
+    dispatch(postsSliceActions.handleReplyBtn(e.target.id));
+  };
 
   return (
     <div key={reply.id} className="replies">
@@ -53,13 +66,10 @@ export const Replies = ({
             <p className="name">{reply.username}</p>
             <p>{reply.date}</p>
           </div>
-          <div className="reply" onClick={handleReply}>
+          <div className="reply" onClick={(e) => handleReplyBtn(e)}>
             {reply.admin && (
               <>
-                <button
-                  id={reply.id}
-                  onClick={(e) => handleDelete(e.target.id)}
-                >
+                <button id={reply.id} onClick={(e) => handleDelete(e)}>
                   Delete
                 </button>
                 <button onClick={toggleReplyEdit}>Edit</button>

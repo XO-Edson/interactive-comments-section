@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import AmyRobson from "../images/avatars/image-amyrobson.webp";
 import MaxBlagun from "../images/avatars/image-maxblagun.webp";
 import JuliusOmo from "../images/avatars/image-juliusomo.webp";
+import RamsesMiron from "../images/avatars/image-ramsesmiron.webp";
 
 const postsSlice = createSlice({
   name: "feed",
@@ -31,9 +32,37 @@ const postsSlice = createSlice({
       },
     ],
 
+    replies: [
+      {
+        parentId: 1,
+        id: 3,
+        admin: false,
+        username: "ramsesmiron",
+        profilePicture: RamsesMiron,
+        date: "1 week ago",
+        likes: 4,
+        reply: false,
+        comment:
+          "@maxblagun If you're still new.I'd recommend focussing on the fundamentals oh HTML,CSS and JS before considering React.It's very tempting to jump ahead but lay a solid foundation first.",
+      },
+      {
+        parentId: 2,
+        id: 4,
+        admin: true,
+        username: "juliosumo",
+        profilePicture: JuliusOmo,
+        date: "2 days ago",
+        likes: 2,
+        reply: false,
+        comment:
+          "@ramsesmiron I couldn't agree more with this.Everything moves so fast and it always seems like everyone knows the newest library/framework.But the fundamentals are what stay constant.",
+      },
+    ],
+
     post: "",
     likes: false,
     edit: "",
+    newReply: "",
   },
 
   reducers: {
@@ -43,7 +72,6 @@ const postsSlice = createSlice({
 
     updateEdit(state, action) {
       state.edit = action.payload;
-      console.log(state.edit);
     },
 
     handleFeedData(state) {
@@ -73,15 +101,13 @@ const postsSlice = createSlice({
         }
       });
 
-      /* state.replies.map((prevReply) => {
-        return prevReply.map((replyPost) => {
-          if (replyPost.id === Id) {
-            return { ...replyPost, likes: (replyPost.likes || 0) + 1 };
-          } else {
-            return replyPost;
-          }
-        });
-      }); */
+      state.replies = state.replies.map((replyPost) => {
+        if (replyPost.id === action.payload) {
+          return { ...replyPost, likes: (replyPost.likes || 0) + 1 };
+        } else {
+          return replyPost;
+        }
+      });
 
       state.likes = true;
     },
@@ -95,15 +121,13 @@ const postsSlice = createSlice({
         }
       });
 
-      /* setReplies((prevReply) => {
-        return prevReply.map((replyPost) => {
-          if (replyPost.id === Id) {
-            return { ...replyPost, likes: (replyPost.likes || 0) - 1 };
-          } else {
-            return replyPost;
-          }
-        });
-      }); */
+      state.replies = state.replies.map((replyPost) => {
+        if (replyPost.id === action.payload) {
+          return { ...replyPost, likes: (replyPost.likes || 0) - 1 };
+        } else {
+          return replyPost;
+        }
+      });
 
       state.likes = false;
     },
@@ -115,9 +139,9 @@ const postsSlice = createSlice({
         (feedPost) => feedPost.id !== parseInt(targetId)
       );
 
-      /* setReplies((prevReply) =>
-        prevReply.filter((reply) => reply.id !== targetId)
-      ); */
+      state.replies = state.replies.filter(
+        (reply) => reply.id !== parseInt(targetId)
+      );
     },
 
     handleEdit(state, action) {
@@ -138,21 +162,61 @@ const postsSlice = createSlice({
       }
     },
 
-    /* handleReplyEdit(post,state){
-      const postToEdit = replies.find((feedPost) => feedPost.id === post.id);
-  
-      const updatedPost = {
-        ...postToEdit,
-        comment: edit,
-      };
-  
-      setReplies(
-        replies.map((feedPost) =>
-          feedPost.id === post.id ? updatedPost : feedPost
-        )
+    handleReplyBtn(state, action) {
+      let numberId = parseInt(action.payload);
+
+      state.feed = state.feed.map((feed) =>
+        numberId === feed.id ? { ...feed, reply: !feed.reply } : feed
       );
-      setEdit("");
-    }; */
+
+      state.replies = state.replies.map((reply) =>
+        numberId === reply.id ? { ...reply, reply: !reply.reply } : reply
+      );
+    },
+
+    replybtn(state) {
+      let parentfeedActive = state.feed.find((feed) => feed.reply);
+
+      let parentId = parentfeedActive ? parentfeedActive.id : 1;
+
+      let newReplyId = state.replies ? state.replies.length + 100 : 1;
+
+      let newReplyPost = {
+        parentId: parentId,
+        id: newReplyId,
+        admin: true,
+        username: "juliosumo",
+        profilePicture: JuliusOmo,
+        date: "1 month ago",
+        likes: 0,
+        reply: false,
+        comment: state.newReply,
+      };
+
+      state.replies = [{ ...state.replies, newReplyPost }];
+      state.newReply = "";
+    },
+
+    handleReplyEdit(state, action) {
+      const postToEdit = state.replies.find(
+        (feedPost) => feedPost.id === action.payload
+      );
+
+      if (postToEdit) {
+        const updatedPost = {
+          ...postToEdit,
+          comment: state.edit,
+        };
+        console.log(updatedPost.comment);
+
+        const updatedReply = state.replies.map((feedPost) =>
+          feedPost.id === action.payload ? updatedPost : feedPost
+        );
+
+        state.replies = updatedReply;
+        state.edit = ""; // Reset the edit state after updating the comment
+      }
+    },
   },
 });
 

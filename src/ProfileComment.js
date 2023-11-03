@@ -10,7 +10,7 @@ import { postsSliceActions } from "./app/postsSlice";
 
 export const ProfileComment = ({
   feed,
-  handleReply,
+
   newReply,
   setNewReply,
   replyBtn,
@@ -23,7 +23,6 @@ export const ProfileComment = ({
   const toggleEdit = () => {
     if (!edit) {
       dispatch(postsSliceActions.updateEdit(feed.comment));
-      //setEdit(feed.comment);
     }
   };
 
@@ -40,6 +39,10 @@ export const ProfileComment = ({
 
   const handleEdit = () => {
     dispatch(postsSliceActions.handleEdit());
+  };
+
+  const handleReplyBtn = (e) => {
+    dispatch(postsSliceActions.handleReplyBtn(e.target.id));
   };
 
   return (
@@ -67,7 +70,7 @@ export const ProfileComment = ({
             <p className="name">{feed.username}</p>
             <p>{feed.date}</p>
           </div>
-          <div className="reply" onClick={handleReply}>
+          <div className="reply" onClick={(e) => handleReplyBtn(e)}>
             {feed.admin && (
               <>
                 <button id={feed.id} onClick={(e) => handleDelete(e)}>

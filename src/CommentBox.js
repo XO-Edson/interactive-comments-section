@@ -11,7 +11,6 @@ export const CommentBox = ({ replies }) => {
 
   const handleFeed = () => {
     dispatch(postsSliceActions.handleFeedData());
-    console.log("clicked");
   };
 
   const handleChange = (e) => {
