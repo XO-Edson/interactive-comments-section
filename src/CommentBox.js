@@ -1,7 +1,23 @@
 import React from "react";
 import JuliusOmo from "./images/avatars/image-juliusomo.webp";
+import { useDispatch, useSelector } from "react-redux";
+import { postsSliceActions } from "./app/postsSlice";
 
-export const CommentBox = ({ feed, handleFeed, post, setPost, replies }) => {
+export const CommentBox = ({ replies }) => {
+  const dispatch = useDispatch();
+
+  const feed = useSelector((state) => state.feedPosts.feed);
+  const post = useSelector((state) => state.feedPosts.post);
+
+  const handleFeed = () => {
+    dispatch(postsSliceActions.handleFeedData());
+    console.log("clicked");
+  };
+
+  const handleChange = (e) => {
+    dispatch(postsSliceActions.updatePost(e.target.value));
+  };
+
   const adminPost = feed.find((feedPost) => feedPost.admin);
   const replyPost = replies.find((reply) => reply.admin);
 
@@ -21,7 +37,7 @@ export const CommentBox = ({ feed, handleFeed, post, setPost, replies }) => {
           id="post"
           placeholder="Add a comment..."
           value={post}
-          onChange={(e) => setPost(e.target.value)}
+          onChange={handleChange}
         ></textarea>
       </div>
       <div>

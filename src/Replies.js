@@ -4,6 +4,7 @@ import plusIcon from "./images/icon-plus.svg";
 import minusIcon from "./images/icon-minus.svg";
 import { ReplyBox } from "./ReplyBox";
 import { EditReplyView } from "./EditReplyView";
+import { useSelector } from "react-redux";
 
 export const Replies = ({
   feed,
@@ -14,17 +15,19 @@ export const Replies = ({
   replyBtn,
   addLikes,
   removeLikes,
-  likes,
+
   handleDelete,
   handleReplyEdit,
   setEdit,
-  edit,
 }) => {
   const toggleReplyEdit = () => {
     if (!edit) {
       setEdit(reply.comment);
     }
   };
+
+  const likes = useSelector((state) => state.feedPosts.likes);
+  const edit = useSelector((state) => state.feedPosts.edit);
 
   return (
     <div key={reply.id} className="replies">

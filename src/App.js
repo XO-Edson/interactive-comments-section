@@ -6,9 +6,12 @@ import RamsesMiron from "./images/avatars/image-ramsesmiron.webp";
 import JuliusOmo from "./images/avatars/image-juliusomo.webp";
 import { CommentBox } from "./CommentBox";
 import { Replies } from "./Replies";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [feed, setFeed] = useState([
+  const feed = useSelector((state) => state.feedPosts.feed);
+
+  /* const [feed, setFeed] = useState([
     {
       id: 1,
       admin: false,
@@ -31,7 +34,7 @@ function App() {
       comment:
         "Woah, your project looks awesome!How long have you been coding for? I'm still new, but think I want to dive into React as well soon.Perhaps you can give me an insight on where I can learn React? Thanks!",
     },
-  ]);
+  ]); */
 
   const [replies, setReplies] = useState([
     {
@@ -59,12 +62,10 @@ function App() {
         "@ramsesmiron I couldn't agree more with this.Everything moves so fast and it always seems like everyone knows the newest library/framework.But the fundamentals are what stay constant.",
     },
   ]);
-  const [likes, setLikes] = useState(false);
-  const [post, setPost] = useState("");
-  const [edit, setEdit] = useState("");
+
   const [newReply, setNewReply] = useState("");
 
-  const handleFeed = () => {
+  /*  const handleFeed = () => {
     let newfeedId = feed ? feed.length + 1 : 1;
 
     let newfeed = {
@@ -80,7 +81,7 @@ function App() {
 
     setFeed((prevfeed) => [...prevfeed, newfeed]);
     setPost("");
-  };
+  }; */
 
   const replybtn = () => {
     let parentfeedActive = feed.find((feed) => feed.reply);
@@ -105,7 +106,7 @@ function App() {
     setNewReply("");
   };
 
-  const handleReply = (e) => {
+  /*  const handleReply = (e) => {
     let numberId = parseInt(e.target.id);
 
     setFeed((prevFeed) => {
@@ -209,62 +210,27 @@ function App() {
       )
     );
     setEdit("");
-  };
+  }; */
 
   return (
     <main>
       <div>
-        {feed.map((feed) => (
-          <div key={feed.id}>
+        {feed.map((feedPost) => (
+          <div key={feedPost.id}>
             {/* Render the main feed */}
-            <ProfileComment
-              feed={feed}
-              handleReply={handleReply}
-              newReply={newReply}
-              setNewReply={setNewReply}
-              replyBtn={replybtn}
-              addLikes={addLikes}
-              removeLikes={removeLikes}
-              likes={likes}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
-              setEdit={setEdit}
-              edit={edit}
-            />
+            <ProfileComment feed={feedPost} />
 
             {/* Render relevant replies for the current feed */}
             {replies
-              .filter((reply) => reply.parentId === feed.id)
+              .filter((reply) => reply.parentId === feedPost.id)
               .map((filteredReply) => (
-                <Replies
-                  key={filteredReply.id}
-                  feed={feed}
-                  reply={filteredReply}
-                  handleReply={handleReply}
-                  replies={replies}
-                  newReply={newReply}
-                  setNewReply={setNewReply}
-                  replyBtn={replybtn}
-                  addLikes={addLikes}
-                  removeLikes={removeLikes}
-                  likes={likes}
-                  handleDelete={handleDelete}
-                  handleReplyEdit={handleReplyEdit}
-                  setEdit={setEdit}
-                  edit={edit}
-                />
+                <Replies key={filteredReply.id} reply={filteredReply} />
               ))}
           </div>
         ))}
       </div>
 
-      <CommentBox
-        feed={feed}
-        replies={replies}
-        handleFeed={handleFeed}
-        post={post}
-        setPost={setPost}
-      />
+      <CommentBox feed={feed} replies={replies} />
     </main>
   );
 }

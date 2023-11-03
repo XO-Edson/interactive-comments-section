@@ -5,6 +5,8 @@ import plusIcon from "./images/icon-plus.svg";
 import minusIcon from "./images/icon-minus.svg";
 import { ReplyBox } from "./ReplyBox";
 import { EditView } from "./EditView";
+import { useDispatch, useSelector } from "react-redux";
+import { postsSliceActions } from "./app/postsSlice";
 
 export const ProfileComment = ({
   feed,
@@ -12,19 +14,34 @@ export const ProfileComment = ({
   newReply,
   setNewReply,
   replyBtn,
-  addLikes,
-  removeLikes,
-  likes,
-  handleDelete,
-  handleEdit,
-  setEdit,
-  edit,
 }) => {
+  const dispatch = useDispatch();
+
+  const likes = useSelector((state) => state.feedPosts.likes);
+  const edit = useSelector((state) => state.feedPosts.edit);
+
   const toggleEdit = () => {
     if (!edit) {
-      setEdit(feed.comment);
+      dispatch(postsSliceActions.updateEdit(feed.comment));
+      //setEdit(feed.comment);
     }
   };
+
+  const handleDelete = (e) => {
+    dispatch(postsSliceActions.handleDelete(e.target.id));
+  };
+
+  const addLikes = () => {
+    dispatch(postsSliceActions.addLikes(feed.id));
+  };
+  const removeLikes = () => {
+    dispatch(postsSliceActions.removeLikes(feed.id));
+  };
+
+  const handleEdit = () => {
+    dispatch(postsSliceActions.handleEdit());
+  };
+
   return (
     <div>
       <div className="comment-container">
@@ -53,7 +70,7 @@ export const ProfileComment = ({
           <div className="reply" onClick={handleReply}>
             {feed.admin && (
               <>
-                <button id={feed.id} onClick={(e) => handleDelete(e.target.id)}>
+                <button id={feed.id} onClick={(e) => handleDelete(e)}>
                   Delete
                 </button>
                 <button onClick={toggleEdit}>Edit</button>
@@ -66,7 +83,7 @@ export const ProfileComment = ({
         <div className="comment">
           {edit.slice(0, 5) == feed.comment.slice(0, 5) && feed.admin ? (
             <EditView
-              setEdit={setEdit}
+              setEdit={handleEdit}
               edit={edit}
               feed={feed}
               handleEdit={handleEdit}
