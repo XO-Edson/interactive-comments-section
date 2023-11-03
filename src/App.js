@@ -11,31 +11,6 @@ import { useSelector } from "react-redux";
 function App() {
   const feed = useSelector((state) => state.feedPosts.feed);
 
-  /* const [feed, setFeed] = useState([
-    {
-      id: 1,
-      admin: false,
-      username: "amyrobson",
-      profilePicture: AmyRobson,
-      date: "1 month ago",
-      likes: 12,
-      reply: false,
-      comment:
-        "Impressive! Though it seems the drag feature could be improved.But overall it looks increadible.Youve nailed the design and theresponsiveness at various breakpoints really well",
-    },
-    {
-      id: 2,
-      admin: false,
-      username: "maxblagun",
-      profilePicture: MaxBlagun,
-      date: "1 week ago",
-      likes: 5,
-      reply: false,
-      comment:
-        "Woah, your project looks awesome!How long have you been coding for? I'm still new, but think I want to dive into React as well soon.Perhaps you can give me an insight on where I can learn React? Thanks!",
-    },
-  ]); */
-
   const [replies, setReplies] = useState([
     {
       parentId: 1,
@@ -64,24 +39,6 @@ function App() {
   ]);
 
   const [newReply, setNewReply] = useState("");
-
-  /*  const handleFeed = () => {
-    let newfeedId = feed ? feed.length + 1 : 1;
-
-    let newfeed = {
-      id: newfeedId,
-      admin: true,
-      username: "juliosumo",
-      profilePicture: JuliusOmo,
-      date: "1 month ago",
-      likes: 0,
-      reply: false,
-      comment: post,
-    };
-
-    setFeed((prevfeed) => [...prevfeed, newfeed]);
-    setPost("");
-  }; */
 
   const replybtn = () => {
     let parentfeedActive = feed.find((feed) => feed.reply);
@@ -122,79 +79,9 @@ function App() {
     });
   };
 
-  const addLikes = (Id) => {
-    setFeed((prevFeed) => {
-      return prevFeed.map((feedPost) => {
-        if (feedPost.id === Id) {
-          return { ...feedPost, likes: (feedPost.likes || 0) + 1 };
-        } else {
-          return feedPost;
-        }
-      });
-    });
+ 
 
-    setReplies((prevReply) => {
-      return prevReply.map((replyPost) => {
-        if (replyPost.id === Id) {
-          return { ...replyPost, likes: (replyPost.likes || 0) + 1 };
-        } else {
-          return replyPost;
-        }
-      });
-    });
-
-    setLikes(true);
-  };
-
-  const removeLikes = (Id) => {
-    setFeed((prevFeed) => {
-      return prevFeed.map((feedPost) => {
-        if (feedPost.id === Id) {
-          return { ...feedPost, likes: (feedPost.likes || 0) - 1 };
-        } else {
-          return feedPost;
-        }
-      });
-    });
-
-    setReplies((prevReply) => {
-      return prevReply.map((replyPost) => {
-        if (replyPost.id === Id) {
-          return { ...replyPost, likes: (replyPost.likes || 0) - 1 };
-        } else {
-          return replyPost;
-        }
-      });
-    });
-
-    setLikes(false);
-  };
-
-  const handleDelete = (e) => {
-    const targetId = parseInt(e);
-
-    setFeed((prevFeed) =>
-      prevFeed.filter((feedPost) => feedPost.id !== targetId)
-    );
-
-    setReplies((prevReply) =>
-      prevReply.filter((reply) => reply.id !== targetId)
-    );
-  };
-
-  const handleEdit = (post) => {
-    const postToEdit = feed.find((feedPost) => feedPost.id === post.id);
-
-    const updatedPost = {
-      ...postToEdit,
-      comment: edit,
-    };
-
-    setFeed(
-      feed.map((feedPost) => (feedPost.id === post.id ? updatedPost : feedPost))
-    );
-    setEdit("");
-  };
+ 
 
   const handleReplyEdit = (post) => {
     const postToEdit = replies.find((feedPost) => feedPost.id === post.id);
