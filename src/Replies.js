@@ -9,7 +9,6 @@ import { postsSliceActions } from "./app/postsSlice";
 
 export const Replies = ({
   feed,
-  handleReply,
   reply,
   newReply,
   setNewReply,

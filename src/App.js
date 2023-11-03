@@ -1,9 +1,5 @@
-import { useState } from "react";
 import { ProfileComment } from "./ProfileComment";
-import AmyRobson from "./images/avatars/image-amyrobson.webp";
-import MaxBlagun from "./images/avatars/image-maxblagun.webp";
-import RamsesMiron from "./images/avatars/image-ramsesmiron.webp";
-import JuliusOmo from "./images/avatars/image-juliusomo.webp";
+
 import { CommentBox } from "./CommentBox";
 import { Replies } from "./Replies";
 import { useSelector } from "react-redux";

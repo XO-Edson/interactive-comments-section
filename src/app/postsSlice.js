@@ -74,6 +74,10 @@ const postsSlice = createSlice({
       state.edit = action.payload;
     },
 
+    updateReply(state, action) {
+      state.newReply = action.payload;
+    },
+
     handleFeedData(state) {
       let newfeedId = state.feed ? state.feed.length + 1 : 1;
 
@@ -131,7 +135,7 @@ const postsSlice = createSlice({
 
       state.likes = false;
     },
-
+    /* delete function issue */
     handleDelete(state, action) {
       const targetId = action.payload;
 
@@ -193,7 +197,7 @@ const postsSlice = createSlice({
         comment: state.newReply,
       };
 
-      state.replies = [{ ...state.replies, newReplyPost }];
+      state.replies = [...state.replies, newReplyPost];
       state.newReply = "";
     },
 
@@ -207,7 +211,6 @@ const postsSlice = createSlice({
           ...postToEdit,
           comment: state.edit,
         };
-        console.log(updatedPost.comment);
 
         const updatedReply = state.replies.map((feedPost) =>
           feedPost.id === action.payload ? updatedPost : feedPost
