@@ -34,7 +34,7 @@ const postsSlice = createSlice({
 
     replies: [
       {
-        parentId: 1,
+        parentId: 2,
         id: 3,
         admin: false,
         username: "ramsesmiron",

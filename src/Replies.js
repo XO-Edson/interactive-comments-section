@@ -2,6 +2,8 @@ import React from "react";
 import ReplyIcon from "./images/icon-reply.svg";
 import plusIcon from "./images/icon-plus.svg";
 import minusIcon from "./images/icon-minus.svg";
+import editIcon from "./images/icon-edit.svg";
+import deleteIcon from "./images/icon-delete.svg";
 import { ReplyBox } from "./ReplyBox";
 import { EditReplyView } from "./EditReplyView";
 import { useDispatch, useSelector } from "react-redux";
@@ -68,10 +70,18 @@ export const Replies = ({
           <div className="reply" onClick={(e) => handleReplyBtn(e)}>
             {reply.admin && (
               <>
-                <button id={reply.id} onClick={(e) => handleDelete(e)}>
+                <button
+                  id={reply.id}
+                  onClick={(e) => handleDelete(e)}
+                  className="deleteBtn"
+                >
+                  <img src={deleteIcon} alt="deleteBtn" />
                   Delete
                 </button>
-                <button onClick={toggleReplyEdit}>Edit</button>
+                <button onClick={toggleReplyEdit} className="editBtn">
+                  <img src={editIcon} alt="editBtn" />
+                  Edit
+                </button>
               </>
             )}
             <img src={ReplyIcon} alt="" />

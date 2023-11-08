@@ -3,6 +3,8 @@ import React from "react";
 import ReplyIcon from "./images/icon-reply.svg";
 import plusIcon from "./images/icon-plus.svg";
 import minusIcon from "./images/icon-minus.svg";
+import editIcon from "./images/icon-edit.svg";
+import deleteIcon from "./images/icon-delete.svg";
 import { ReplyBox } from "./ReplyBox";
 import { EditView } from "./EditView";
 import { useDispatch, useSelector } from "react-redux";
@@ -73,10 +75,18 @@ export const ProfileComment = ({
           <div className="reply" onClick={(e) => handleReplyBtn(e)}>
             {feed.admin && (
               <>
-                <button id={feed.id} onClick={(e) => handleDelete(e)}>
+                <button
+                  className="deleteBtn"
+                  id={feed.id}
+                  onClick={(e) => handleDelete(e)}
+                >
+                  <img src={deleteIcon} alt="deleteBtn" />
                   Delete
                 </button>
-                <button onClick={toggleEdit}>Edit</button>
+                <button onClick={toggleEdit} className="editBtn">
+                  <img src={editIcon} alt="editBtn" />
+                  Edit
+                </button>
               </>
             )}
             <img src={ReplyIcon} alt="" />

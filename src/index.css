@@ -71,7 +71,8 @@ img {
 .profile-info {
   display: flex;
   align-items: center;
-  column-gap: 1rem;
+  column-gap: 0.6rem;
+  background-color: red;
 }
 
 .profile-info .name {
@@ -134,10 +135,27 @@ button {
   color: hsl(0, 0%, 100%);
   border: none;
   border-radius: 5px;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
+  cursor: pointer;
 }
 
 .replies {
-  width: 85%;
+  width: 90%;
   margin-left: auto;
+}
+
+.deleteBtn,
+.editBtn {
+  display: flex;
+  column-gap: 5px;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.deleteBtn {
+  color: red;
+}
+
+.editBtn {
+  color: hsl(238, 40%, 52%);
 }
