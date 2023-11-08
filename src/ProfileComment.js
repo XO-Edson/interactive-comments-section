@@ -66,33 +66,35 @@ export const ProfileComment = ({
             />
           </div>
         </div>
+
         <div className="profile">
           <div className="profile-info">
             <img src={feed.profilePicture} alt="" />
             <p className="name">{feed.username}</p>
             <p>{feed.date}</p>
           </div>
-          <div className="reply" onClick={(e) => handleReplyBtn(e)}>
-            {feed.admin && (
-              <>
-                <button
-                  className="deleteBtn"
-                  id={feed.id}
-                  onClick={(e) => handleDelete(e)}
-                >
-                  <img src={deleteIcon} alt="deleteBtn" />
-                  Delete
-                </button>
-                <button onClick={toggleEdit} className="editBtn">
-                  <img src={editIcon} alt="editBtn" />
-                  Edit
-                </button>
-              </>
-            )}
-            <img src={ReplyIcon} alt="" />
-            <p id={feed.id}>Reply</p>
-          </div>
         </div>
+        <div className="reply" onClick={(e) => handleReplyBtn(e)}>
+          {feed.admin && (
+            <>
+              <button
+                className="deleteBtn"
+                id={feed.id}
+                onClick={(e) => handleDelete(e)}
+              >
+                <img src={deleteIcon} alt="deleteBtn" />
+                Delete
+              </button>
+              <button onClick={toggleEdit} className="editBtn">
+                <img src={editIcon} alt="editBtn" />
+                Edit
+              </button>
+            </>
+          )}
+          <img src={ReplyIcon} alt="" />
+          <p id={feed.id}>Reply</p>
+        </div>
+
         <div className="comment">
           {edit.slice(0, 5) == feed.comment.slice(0, 5) && feed.admin ? (
             <EditView

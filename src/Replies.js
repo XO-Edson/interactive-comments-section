@@ -67,26 +67,26 @@ export const Replies = ({
             <p className="name">{reply.username}</p>
             <p>{reply.date}</p>
           </div>
-          <div className="reply" onClick={(e) => handleReplyBtn(e)}>
-            {reply.admin && (
-              <>
-                <button
-                  id={reply.id}
-                  onClick={(e) => handleDelete(e)}
-                  className="deleteBtn"
-                >
-                  <img src={deleteIcon} alt="deleteBtn" />
-                  Delete
-                </button>
-                <button onClick={toggleReplyEdit} className="editBtn">
-                  <img src={editIcon} alt="editBtn" />
-                  Edit
-                </button>
-              </>
-            )}
-            <img src={ReplyIcon} alt="" />
-            <p id={reply.id}>Reply</p>
-          </div>
+        </div>
+        <div className="reply" onClick={(e) => handleReplyBtn(e)}>
+          {reply.admin && (
+            <>
+              <button
+                id={reply.id}
+                onClick={(e) => handleDelete(e)}
+                className="deleteBtn"
+              >
+                <img src={deleteIcon} alt="deleteBtn" />
+                Delete
+              </button>
+              <button onClick={toggleReplyEdit} className="editBtn">
+                <img src={editIcon} alt="editBtn" />
+                Edit
+              </button>
+            </>
+          )}
+          <img src={ReplyIcon} alt="" />
+          <p id={reply.id}>Reply</p>
         </div>
         <div className="comment">
           {edit.slice(0, 5) == reply.comment.slice(0, 5) && reply.admin ? (

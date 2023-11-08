@@ -15,11 +15,11 @@ body {
 #root {
   width: 100%;
   height: 100%;
-  padding: 3rem 0;
+  padding: 3rem 0.8rem;
 }
 
 main {
-  max-width: 530px;
+  max-width: 575px;
   height: 100%;
   margin: auto;
   display: flex;
@@ -50,18 +50,22 @@ img {
 .counter-info {
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
+  row-gap: 0.5rem;
   color: hsl(238, 40%, 52%);
   font-weight: bold;
   background-color: hsl(228, 33%, 97%);
-  padding: 0.5rem;
+  padding: 0.3rem;
   border-radius: 5px;
 }
 
 .profile {
   display: flex;
   justify-content: space-between;
+
   margin-bottom: 1rem;
+
+  grid-row: 1/2;
+  grid-column: 2/3;
 }
 
 img {
@@ -89,9 +93,18 @@ img {
   grid-column: 2/3;
 }
 
+.extra-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .reply {
   display: flex;
   align-items: center;
+  grid-column: 2/3;
+  grid-row: 1/2;
+  justify-content: end;
   column-gap: 5px;
   font-weight: bold;
   color: hsl(238, 40%, 52%);
@@ -157,4 +170,39 @@ button {
 
 .editBtn {
   color: hsl(238, 40%, 52%);
+}
+
+/* SMALLER SCREENS */
+@media screen and (max-width: 565px) {
+  .comment-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 50px auto 50px;
+  }
+
+  .profile {
+    grid-column: span 2;
+  }
+
+  .comment {
+    grid-column: span 2;
+    grid-row: 2/2;
+  }
+
+  .counter {
+    grid-row: 3/4;
+    grid-column: 1/1;
+    justify-content: start;
+  }
+
+  .counter-info {
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.5rem;
+  }
+
+  .reply {
+    grid-row: 3/4;
+    grid-column: span 2;
+    justify-content: end;
+  }
 }
