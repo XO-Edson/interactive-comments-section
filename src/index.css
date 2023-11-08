@@ -72,7 +72,6 @@ img {
   display: flex;
   align-items: center;
   column-gap: 0.6rem;
-  background-color: red;
 }
 
 .profile-info .name {
