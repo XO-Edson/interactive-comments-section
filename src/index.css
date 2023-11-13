@@ -165,15 +165,59 @@ button {
 }
 
 .deleteBtn {
-  color: red;
+  color: hsl(357, 100%, 86%);
 }
 
 .editBtn {
   color: hsl(238, 40%, 52%);
 }
 
+.popup-background {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: grid;
+  place-content: center;
+}
+
+.delete-Popup {
+  max-width: 300px;
+  max-height: 200px;
+  background-color: hsl(228, 33%, 97%);
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.delete-Popup h3 {
+  margin-bottom: 1.5rem;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: center;
+  column-gap: 0.5rem;
+  margin: 1rem 0;
+  font-weight: bold;
+}
+
+.deleteBtn-popup {
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(357, 93%, 64%);
+  padding: 0.5rem 1rem;
+}
+
+.cancelBtn-popup {
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(211, 10%, 45%);
+  padding: 0.5rem 1rem;
+}
+
 /* SMALLER SCREENS */
-@media screen and (max-width: 565px) {
+@media screen and (max-width: 500px) {
   .comment-container {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 50px auto 50px;

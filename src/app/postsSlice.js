@@ -35,7 +35,7 @@ const postsSlice = createSlice({
     replies: [
       {
         parentId: 2,
-        id: 3,
+        id: 30,
         admin: false,
         username: "ramsesmiron",
         profilePicture: RamsesMiron,
@@ -47,13 +47,14 @@ const postsSlice = createSlice({
       },
       {
         parentId: 2,
-        id: 4,
+        id: 40,
         admin: true,
         username: "juliosumo",
         profilePicture: JuliusOmo,
         date: "2 days ago",
         likes: 2,
         reply: false,
+        delete: false,
         comment:
           "@ramsesmiron I couldn't agree more with this.Everything moves so fast and it always seems like everyone knows the newest library/framework.But the fundamentals are what stay constant.",
       },
@@ -63,9 +64,14 @@ const postsSlice = createSlice({
     likes: false,
     edit: "",
     newReply: "",
+    popUp: false,
   },
 
   reducers: {
+    togglePopup(state) {
+      state.popUp = !state.popUp;
+    },
+
     updatePost(state, action) {
       state.post = action.payload;
     },
@@ -89,6 +95,7 @@ const postsSlice = createSlice({
         date: "1 month ago",
         likes: 0,
         reply: false,
+        delete: false,
         comment: state.post,
       };
 
@@ -167,14 +174,16 @@ const postsSlice = createSlice({
     },
 
     handleReplyBtn(state, action) {
-      let numberId = parseInt(action.payload);
+      const numberId = parseInt(action.payload);
 
+      // Update feed items
       state.feed = state.feed.map((feed) =>
-        numberId === feed.id ? { ...feed, reply: !feed.reply } : feed
+        feed.id === numberId ? { ...feed, reply: !feed.reply } : feed
       );
 
+      // Update reply items
       state.replies = state.replies.map((reply) =>
-        numberId === reply.id ? { ...reply, reply: !reply.reply } : reply
+        reply.id === numberId ? { ...reply, reply: !reply.reply } : reply
       );
     },
 
@@ -194,6 +203,7 @@ const postsSlice = createSlice({
         date: "1 month ago",
         likes: 0,
         reply: false,
+        delete: false,
         comment: state.newReply,
       };
 

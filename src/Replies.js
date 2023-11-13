@@ -22,9 +22,15 @@ export const Replies = ({
   const dispatch = useDispatch();
   const likes = useSelector((state) => state.feedPosts.likes);
   const edit = useSelector((state) => state.feedPosts.edit);
+  const popUp = useSelector((state) => state.feedPosts.popUp);
 
   const handleDelete = (e) => {
     dispatch(postsSliceActions.handleDelete(e.target.id));
+    dispatch(postsSliceActions.togglePopup());
+  };
+
+  const togglePopup = () => {
+    dispatch(postsSliceActions.togglePopup());
   };
 
   const addLikes = () => {
@@ -68,14 +74,10 @@ export const Replies = ({
             <p>{reply.date}</p>
           </div>
         </div>
-        <div className="reply" onClick={(e) => handleReplyBtn(e)}>
+        <div className="reply">
           {reply.admin && (
             <>
-              <button
-                id={reply.id}
-                onClick={(e) => handleDelete(e)}
-                className="deleteBtn"
-              >
+              <button className="deleteBtn" onClick={togglePopup}>
                 <img src={deleteIcon} alt="deleteBtn" />
                 Delete
               </button>
@@ -85,9 +87,39 @@ export const Replies = ({
               </button>
             </>
           )}
+
           <img src={ReplyIcon} alt="" />
-          <p id={reply.id}>Reply</p>
+          <p id={reply.id} onClick={(e) => handleReplyBtn(e)}>
+            Reply
+          </p>
         </div>
+
+        {popUp && (
+          <div
+            className="popup-background"
+            style={{ visibility: popUp ? "visible" : "hidden" }}
+          >
+            <div className="delete-Popup">
+              <h3>Delete comment</h3>
+              <p>
+                Are you sure you want to delete this comment? This will remove
+                the comment ans cant be undone.
+              </p>
+              <div className="popup-buttons">
+                <button onClick={togglePopup} className="cancelBtn-popup">
+                  NO,CANCEL
+                </button>
+                <button
+                  id={reply.id}
+                  onClick={(e) => handleDelete(e)}
+                  className="deleteBtn-popup"
+                >
+                  YES,DELETE
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="comment">
           {edit.slice(0, 5) == reply.comment.slice(0, 5) && reply.admin ? (
             <EditReplyView

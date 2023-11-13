@@ -21,6 +21,7 @@ export const ProfileComment = ({
 
   const likes = useSelector((state) => state.feedPosts.likes);
   const edit = useSelector((state) => state.feedPosts.edit);
+  const popUp = useSelector((state) => state.feedPosts.popUp);
 
   const toggleEdit = () => {
     if (!edit) {
@@ -28,8 +29,8 @@ export const ProfileComment = ({
     }
   };
 
-  const handleDelete = (e) => {
-    dispatch(postsSliceActions.handleDelete(e.target.id));
+  const togglePopup = () => {
+    dispatch(postsSliceActions.togglePopup());
   };
 
   const addLikes = () => {
@@ -45,6 +46,11 @@ export const ProfileComment = ({
 
   const handleReplyBtn = (e) => {
     dispatch(postsSliceActions.handleReplyBtn(e.target.id));
+  };
+
+  const handleDelete = (e) => {
+    dispatch(postsSliceActions.handleDelete(e.target.id));
+    dispatch(postsSliceActions.togglePopup());
   };
 
   return (
@@ -74,14 +80,10 @@ export const ProfileComment = ({
             <p>{feed.date}</p>
           </div>
         </div>
-        <div className="reply" onClick={(e) => handleReplyBtn(e)}>
+        <div className="reply">
           {feed.admin && (
             <>
-              <button
-                className="deleteBtn"
-                id={feed.id}
-                onClick={(e) => handleDelete(e)}
-              >
+              <button className="deleteBtn" onClick={togglePopup}>
                 <img src={deleteIcon} alt="deleteBtn" />
                 Delete
               </button>
@@ -92,8 +94,39 @@ export const ProfileComment = ({
             </>
           )}
           <img src={ReplyIcon} alt="" />
-          <p id={feed.id}>Reply</p>
+          <p id={feed.id} onClick={(e) => handleReplyBtn(e)}>
+            Reply
+          </p>
         </div>
+
+        {/*  */}
+        {popUp && (
+          <div
+            className="popup-background"
+            style={{ visibility: popUp ? "visible" : "hidden" }}
+          >
+            <div className="delete-Popup">
+              <h3>Delete comment</h3>
+              <p>
+                Are you sure you want to delete this comment? This will remove
+                the comment ans cant be undone.
+              </p>
+              <div className="popup-buttons">
+                <button onClick={togglePopup} className="cancelBtn-popup">
+                  NO,CANCEL
+                </button>
+                <button
+                  id={feed.id}
+                  onClick={(e) => handleDelete(e)}
+                  className="deleteBtn-popup"
+                >
+                  YES,DELETE
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {/*  */}
 
         <div className="comment">
           {edit.slice(0, 5) == feed.comment.slice(0, 5) && feed.admin ? (
