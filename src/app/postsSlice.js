@@ -61,7 +61,7 @@ const postsSlice = createSlice({
     ],
 
     post: "",
-    likes: false,
+    likes: true,
     edit: "",
     newReply: "",
     popUp: false,
@@ -87,12 +87,30 @@ const postsSlice = createSlice({
     handleFeedData(state) {
       let newfeedId = state.feed ? state.feed.length + 1 : 1;
 
+      const timeDifference = (timestamp) => {
+        const currentTime = new Date().getTime();
+        const difference = currentTime - timestamp;
+        const minutes = Math.floor(difference / 60000);
+
+        if (minutes < 1) {
+          return "Just now";
+        } else if (minutes < 60) {
+          return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
+        } else {
+          const hours = Math.floor(minutes / 60);
+          return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+        }
+      };
+
+      const currentTimestamp = new Date().getTime();
+      const timeAgo = timeDifference(currentTimestamp);
+
       let newfeed = {
         id: newfeedId,
         admin: true,
         username: "juliosumo",
         profilePicture: JuliusOmo,
-        date: "1 month ago",
+        date: timeAgo,
         likes: 0,
         reply: false,
         delete: false,

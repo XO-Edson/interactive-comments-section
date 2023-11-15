@@ -217,7 +217,7 @@ button {
 }
 
 /* SMALLER SCREENS */
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 550px) {
   .comment-container {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 50px auto 50px;
